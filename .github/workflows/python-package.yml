@@ -35,8 +35,6 @@ jobs:
         
     - name: Commits
       run: |
-        git config --local user.email "18tomcat@gmail.com"
-        git config --local user.name "Auto Scraping melon chart"
         git add.
         git commit -m "Auto - Update data with Scraping"
     - name: Push
