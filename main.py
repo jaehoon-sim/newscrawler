@@ -4,6 +4,12 @@ import re
 import json
 import time
 
+from datetime import datetime, timezone 
+
+
+newTime = datetime.now(timezone.utc)
+dtString = newTime.strftime("%y_%m_%d-%h")
+
 crtTime = time.localtime(time.time())
 zoneTime = (f"{crtTime.tm_mon}.{crtTime.tm_mday}.{crtTime.tm_hour}.{crtTime.tm_min}")
 print(zoneTime)
@@ -55,5 +61,5 @@ for idx, a_tag in enumerate(a_tags,1):
         song_list.append(song_dict)
         # print(song_list)
 
-with open(f'melonTop100.{zoneTime}.json','w',encoding='utf-8') as file:
+with open(f'melonTop100.{dtString}.json','w',encoding='utf-8') as file:
 	json.dump(song_list, file, ensure_ascii=False)
