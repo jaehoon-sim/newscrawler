@@ -5,7 +5,7 @@ name: Python package
 
 on:
   schedule:
-    - cron: '15 * * * *'
+    - cron: '*/5 * * * *'
    
 
 jobs:
@@ -29,6 +29,18 @@ jobs:
         python -m pip install requests
         python -m pip install bs4
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi    
-    - name: Test with pytest
+    - name: Run Scraper
       run: |
         python main.py
+        
+    - name: Commits
+      run: |
+        git config --local user.email "18tomcat@gmail.com"
+        git config --local user.name "Auto Scraping melon chart"
+        git add.
+        got commit -m "Auto - Update data with Scraping"
+    - name: Push
+      uses: jaehoon-sim/newscrawler@main
+      with:
+        branch: 'main'
+        github_token: $
