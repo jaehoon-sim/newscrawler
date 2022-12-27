@@ -2,7 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
+import time
 
+crtTime = time.localtime(time.time())
+zoneTime = (f"{crtTime.tm_mon}.{crtTime.tm_mday}.{crtTime.tm_hour}.{crtTime.tm_min}")
+print(zoneTime)
 url = 'https://www.melon.com/chart/index.htm'
 req_header_dict = {
     # 요청헤더 : 브라우저정보
@@ -51,5 +55,5 @@ for idx, a_tag in enumerate(a_tags,1):
         song_list.append(song_dict)
         # print(song_list)
 
-with open('melonTop100_weekly.json','w',encoding='utf-8') as file:
+with open(f'melonTop100.{zoneTime}.json','w',encoding='utf-8') as file:
 	json.dump(song_list, file, ensure_ascii=False)
