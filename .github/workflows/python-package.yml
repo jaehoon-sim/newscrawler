@@ -35,7 +35,7 @@ jobs:
         
     - name: Commits
       run: |
-        git add.
+        git add .
         git commit -m "Auto - Update data with Scraping"
     - name: Push
       run: |
