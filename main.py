@@ -7,12 +7,10 @@ import time
 from datetime import datetime, timezone 
 
 
-newTime = datetime.now(timezone.utc)
-dtString = newTime.strftime("%y_%m_%d-%h")
+newTime = datetime.now()
+print(newTime)
+dtString = newTime.strftime("%y_%m_%d_%H oclock")
 
-crtTime = time.localtime(time.time())
-zoneTime = (f"{crtTime.tm_mon}.{crtTime.tm_mday}.{crtTime.tm_hour}.{crtTime.tm_min}")
-print(zoneTime)
 url = 'https://www.melon.com/chart/index.htm'
 req_header_dict = {
     # 요청헤더 : 브라우저정보
