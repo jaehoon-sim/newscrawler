@@ -38,7 +38,7 @@ jobs:
         git config --local user.email "18tomcat@gmail.com"
         git config --local user.name "Auto Scraping melon chart"
         git add.
-        got commit -m "Auto - Update data with Scraping"
+        gtt commit -m "Auto - Update data with Scraping"
     - name: Push
       uses: jaehoon-sim/newscrawler@main
       with:
