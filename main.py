@@ -59,5 +59,5 @@ for idx, a_tag in enumerate(a_tags,1):
         song_list.append(song_dict)
         # print(song_list)
 
-with open(f'melonTop100.{dtString}.json','w',encoding='utf-8') as file:
+with open('melonTop100.json','w',encoding='utf-8') as file:
 	json.dump(song_list, file, ensure_ascii=False)
