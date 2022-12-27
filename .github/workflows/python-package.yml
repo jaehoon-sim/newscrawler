@@ -35,8 +35,10 @@ jobs:
         
     - name: Commits
       run: |
+        git config --global "18tomcat@gmail.com"
+        git config --global "jaehoon-sim"
         git add .
         git commit -m "Auto - Update data with Scraping"
     - name: Push
       run: |
-        git push
+        git push -u origin main
