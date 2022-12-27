@@ -38,7 +38,5 @@ jobs:
         git add.
         git commit -m "Auto - Update data with Scraping"
     - name: Push
-      uses: jaehoon-sim/newscrawler@main
-      with:
-        branch: 'main'
-        github_token: $
+      run: |
+        git push
