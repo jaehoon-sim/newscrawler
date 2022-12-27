@@ -1,76 +1,55 @@
 import requests
 from bs4 import BeautifulSoup
+import re
 import json
-import os
-import sys
 
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-print('뉴스기사 스크래핑 시작')
-
-
-
-# def crawler_melon():
-header = {
-    'User-Agent':
-    'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko'
-  }
-req = requests.get('https://www.melon.com/chart/week/index.htm', headers=header)
-html = req.text
-parse = BeautifulSoup(html, 'html.parser')
-
-titles = parse.find_all("div", "ellipsis rank01")
-singer = parse.find_all("span", "checkEllipsis")
-song_detail = parse.find_all("a", "song_info")
-album_detail = parse.find_all("a", "image_typeAll")
-
-data = {
-    'song': [],
-    'songs_detail': [],
-    'artist': [],
-    'artist_detail': [],
-    'thumbnail': [],
-    'albums_detail': [],                
+url = 'https://www.melon.com/chart/index.htm'
+req_header_dict = {
+    # 요청헤더 : 브라우저정보
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'
 }
+res = requests.get(url, headers=req_header_dict)
 
-# song = []
-# songs_detail = []
-# artist = []
-# artist_detail = []
-# thumbnail = []
-# albums_detail = []
 
-for u in parse.select("span.checkEllipsis"):
-    u = u.find('a')
-    u = u.get('href')
-    data['artist_detail'].append(u)
+if res.ok:
+    html = res.text
+    #html 전체 소스보기
+    #print(html)
+    soup = BeautifulSoup(html, 'html.parser')
+    #html parsing
+    #print(soup)
+    
+    #parsing한 html중 곡 에대한 정보를 담음 태그만 조회!!
+a_tags = soup.select("div#tb_list tr a[href*='playSong']")
+#print(a_tags)
 
-for sd in song_detail:
-    sd = sd.get('href')
-    data['songs_detail'].append(sd)
+song_list = []
 
-for ad in album_detail:
-    ad = ad.get('href')
-    data['albums_detail'].append(ad)
+for idx, a_tag in enumerate(a_tags,1):
+    #노래 1곡의 정보를 저장할 dict 선언 
+    song_dict = {}    
+    #노래 제목 갖고오기 <a href="">노래제목</a>
+    song_title = a_tag.text
+    song_dict['rank'] = idx
+    song_dict['song_title'] = song_title
+    # print(song_dict)
+    
+    
+    #a태그의 href 속성의 값을 추출하기 javascript:melon.play.playSong('1000002721',34535898);
+    href_value = a_tag['href']
+    # print(href_value)
+    #Song ID를 찾기 위한 정규표현식
+    matched = re.search(r'(\d+)\);', href_value)
+    # print(matched)
+    if matched:
+        song_id = matched.group(1) # group(0) : 34535898);  group(1) : 34535898
+        song_dict['song_id'] = song_id
+        print(song_title +" / " + song_id)
+        
+        song_detail_url = f'https://www.melon.com/song/detail.htm?songId={song_id}'
+        song_dict['song_detail_url'] = song_detail_url
+        song_list.append(song_dict)
+        # print(song_list)
 
-for t in titles:
-    t = t.text.replace("\n", "")
-    data['song'].append(t)
-
-for s in singer:
-    s=s.text.replace("\n", "")
-    data['artist'].append(s)
-
-for thumbs_img in parse.select(".image_typeAll"):
-    thumbs_img = thumbs_img.find("img")
-    thumbs_img = thumbs_img.get("src")
-    data['thumbnail'].append(thumbs_img)
-
-#   return [song, artist, thumbnail, artist_detail, songs_detail, albums_detail]
-# result = crawler_melon()
-
-with open(os.path.join(BASE_DIR, 'news.json'), 'w+',encoding='utf-8') as json_file:
-    json.dump(data, json_file, ensure_ascii = False, indent='\t')
-
-print('뉴스기사 스크래핑 끝')
+with open('melonTop100_weekly.json','w',encoding='utf-8') as file:
+	json.dump(song_list, file, ensure_ascii=False)
