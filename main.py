@@ -95,7 +95,7 @@ for idx, song in enumerate(song_list,1): # 결과가 매번 100개씩출력되�
             song_detail_dict['FLAC'] = song_di[3].text
             
         song_detail_dict['재킷'] = song_coverImg
-                    
+        song_detail_dict['순위'] = idx
         song_detail_list.append(song_detail_dict)
         
         # if song_coverImg:
