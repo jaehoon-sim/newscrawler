@@ -95,7 +95,7 @@ for idx, song in enumerate(song_list, 1):
             song_detail_dict['발매일'] = song_di[1].text
             song_detail_dict['장르'] = song_di[2].text
             song_detail_dict['FLAC'] = song_di[3].text
-
+        song_detail_dict['상세정보'] = song_detail_url
         song_detail_dict['재킷'] = song_coverImg
         song_detail_dict['순위'] = idx
         song_detail_list.append(song_detail_dict)
