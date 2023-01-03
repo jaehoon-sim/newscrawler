@@ -16,9 +16,12 @@ soup = BeautifulSoup(html, 'html.parser')
 rank = 0
 titles = soup.select('.rank01')
 artists = soup.select('.checkEllipsis')
-thumbs = soup.select('img')
+thumbs1 = soup.select('#lst50 > td > div > a > img')
+thumbs2 = soup.select('#lst100 > td > div > a > img')
+thumbs = thumbs1+thumbs2
+print(thumbs)
 albums = soup.select('.rank03')
-song_ids = soup.select('.input_check ')
+song_ids = soup.select('.input_check')
 urls = 'https://www.melon.com/song/detail.htm?songId='
 
 song_list = []
