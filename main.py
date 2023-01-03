@@ -14,7 +14,7 @@ dtString = newTime.strftime("%y_%m_%d_%H oclock")
 period = ['day/', 'week/', 'month/']  # 일간, 주간, 월간
 
 
-url = 'https://www.melon.com/chart/'+period[1]+'index.htm'
+url = 'https://www.melon.com/chart/'+period[0]+'index.htm'
 # print(url)
 req_header_dict = {
     # 요청헤더 : 브라우저정보
