@@ -19,7 +19,6 @@ artists = soup.select('.checkEllipsis')
 thumbs1 = soup.select('#lst50 > td > div > a > img')
 thumbs2 = soup.select('#lst100 > td > div > a > img')
 thumbs = thumbs1+thumbs2
-print(thumbs)
 albums = soup.select('.rank03')
 song_ids = soup.select('.input_check')
 urls = 'https://www.melon.com/song/detail.htm?songId='
@@ -34,6 +33,7 @@ for title, artist, thumb, album, song_id in zip(titles, artists, thumbs, albums,
     thumb = thumb.get('src')
     song_id = song_id.get('value')
     detail_url = f'https://www.melon.com/song/detail.htm?songId={song_id}'
+
     song_dict['순위'] = rank
     song_dict['곡명'] = title
     song_dict['가수'] = artist
@@ -41,8 +41,6 @@ for title, artist, thumb, album, song_id in zip(titles, artists, thumbs, albums,
     song_dict['재킷'] = thumb
     song_dict['상세정보'] = detail_url
     song_list.append(song_dict)
-
-print(song_list)
 
 with open('melonTop100.json', 'w', encoding='utf-8') as file:
     json.dump(song_list, file, ensure_ascii=False)
