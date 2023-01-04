@@ -24,7 +24,7 @@ song_ids = soup.select('.input_check')
 urls = 'https://www.melon.com/song/detail.htm?songId='
 
 song_list = []
-for title, artist, thumb, album, song_id in zip(titles, artists, thumbs, albums, song_ids):
+for title, artist, thumb, album, song_id in zip(titles, artists, thumbs, albums, song_ids[1:]):
     song_dict = {}
     rank = rank + 1
     title = title.text.strip()
